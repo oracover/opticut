@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!-- =====================================================
+       OptiCut — Page d'accueil
+       Présente les fonctionnalités et redirige vers les
+       pages applicatives Tôle et Barre.
+       ===================================================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO de base -->
+  <title>OptiCut — Optimiseur de découpe Tôle &amp; Barre</title>
+  <meta name="description" content="OptiCut optimise vos plans de découpe de tôles (2D) et de barres (1D) avec l'algorithme guillotine. Gratuit, sans installation, fonctionne hors ligne.">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Barlow+Condensed:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Feuille de styles partagée -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+
+ <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-"
+     crossorigin="anonymous"></script>
+
+  <style>
+    /* Styles spécifiques à la page d'accueil */
+
+    /* Séparateur visuel entre sections */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* Grille des avantages clés */
+    .advantages {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--space-sm);
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-md);
+    }
+    .advantage-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .advantage-icon { font-size: 22px; flex-shrink: 0; }
+    .advantage-text {
+      font-size: clamp(12px, 1.8vw, 14px);
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .advantage-text strong { color: var(--text); display: block; }
+
+    /* Section CTA principale */
+    .cta-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: var(--space-xl) var(--space-md);
+      text-align: center;
+    }
+    .cta-title {
+      font-size: clamp(20px, 4vw, 32px);
+      font-weight: 900; letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: var(--space-md);
+    }
+    .cta-cards {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .cta-card {
+      flex: 1;
+      min-width: 280px;
+      max-width: 360px;
+      background: var(--panel);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: var(--space-lg);
+      text-decoration: none;
+      transition: transform .2s, border-color .2s, box-shadow .2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+      text-align: center;
+    }
+    .cta-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    }
+    .cta-card.card-tole  { border-color: rgba(245,166,35,.4); }
+    .cta-card.card-tole:hover  { border-color: var(--accent); }
+    .cta-card.card-barre { border-color: rgba(62,207,207,.4); }
+    .cta-card.card-barre:hover { border-color: var(--accent2); }
+
+    .cta-card-icon { font-size: clamp(36px, 8vw, 52px); }
+    .cta-card-title {
+      font-size: clamp(18px, 3vw, 24px);
+      font-weight: 900; letter-spacing: 3px; text-transform: uppercase;
+    }
+    .cta-card.card-tole  .cta-card-title { color: var(--accent); }
+    .cta-card.card-barre .cta-card-title { color: var(--accent2); }
+    .cta-card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .cta-card-btn {
+      margin-top: var(--space-xs);
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 22px; border-radius: 5px;
+      font-family: var(--font-ui); font-size: 13px;
+      font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    }
+    .cta-card.card-tole  .cta-card-btn { background: var(--accent);  color: #000; }
+    .cta-card.card-barre .cta-card-btn { background: var(--accent2); color: #000; }
+
+    /* Mini-démo technique */
+    .tech-section {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-md);
+    }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+    .tech-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: var(--space-md);
+    }
+    .tech-block h3 {
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: var(--space-sm);
+    }
+    .tech-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .tech-list li {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 13px; color: var(--muted); line-height: 1.5;
+    }
+    .tech-list li::before {
+      content: '→'; color: var(--accent2); flex-shrink: 0; margin-top: 1px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       BANNIÈRE PUBLICITAIRE HAUTE (728×90 desktop / 320×50 mobile)
+       Remplacer le contenu par votre balise <ins> AdSense.
+       ═══════════════════════════════════════════════════ -->
+  <div class="ad-slot ad-top">
+    <div class="ad-placeholder">
+      📢 Espace publicitaire — 728×90
+      <!-- <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px"
+           data-ad-client="ca-pub-" data-ad-slot="YOUR_SLOT_ID"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       HEADER — navigation du site
+       ═══════════════════════════════════════════════════ -->
+  <header>
+    <div class="hdr-bar">
+      <!-- Logo / retour accueil -->
+      <a href="index.html" class="hdr-logo">
+        <div class="logo-mark"><span></span><span></span><span></span></div>
+        <span class="app-title">Opti<em>CUT</em></span>
+      </a>
+
+      <!-- Navigation principale -->
+      <nav class="hdr-nav">
+        <a href="index.html"       class="hdr-nav-link active">Accueil</a>
+        <a href="pages/tole.html"  class="hdr-nav-link">▦ Tôle 2D</a>
+        <a href="pages/barre.html" class="hdr-nav-link">═ Barre 1D</a>
+        <a href="pages/a-propos.html" class="hdr-nav-link">À propos</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-badge">⚡ Gratuit · Sans installation · Fonctionne hors ligne</div>
+    <h1 class="hero-title">Optimiseur de<br><em>découpe</em></h1>
+    <p class="hero-sub">
+      Calculez vos plans de découpe de tôles et de barres en quelques secondes.
+      Algorithme guillotine · Exportez en PDF, JPEG, PNG ou CSV.
+    </p>
+    <div class="hero-ctas">
+      <a href="pages/tole.html"  class="btn-primary">▦ Calepinage Tôle 2D →</a>
+      <a href="pages/barre.html" class="btn-secondary">═ Débit de Barre 1D →</a>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════════════════
+       AVANTAGES CLÉS
+       ═══════════════════════════════════════════════════ -->
+  <div class="advantages">
+    <div class="advantage-item">
+      <span class="advantage-icon">🧠</span>
+      <div class="advantage-text">
+        <strong>Algorithme guillotine</strong>
+        Best Area Fit + Short Side Split — taux d'utilisation optimal
+      </div>
+    </div>
+    <div class="advantage-item">
+      <span class="advantage-icon">📱</span>
+      <div class="advantage-text">
+        <strong>Responsive</strong>
+        Interface adaptée smartphone, tablette et PC
+      </div>
+    </div>
+    <div class="advantage-item">
+      <span class="advantage-icon">💾</span>
+      <div class="advantage-text">
+        <strong>Sauvegarde automatique</strong>
+        Votre session est restaurée au prochain chargement
+      </div>
+    </div>
+    <div class="advantage-item">
+      <span class="advantage-icon">📤</span>
+      <div class="advantage-text">
+        <strong>Exports multiples</strong>
+        PDF, JPEG haute résolution, PNG, CSV
+      </div>
+    </div>
+    <div class="advantage-item">
+      <span class="advantage-icon">🔗</span>
+      <div class="advantage-text">
+        <strong>Import depuis Excel</strong>
+        Copiez-collez vos listes directement depuis un tableur
+      </div>
+    </div>
+    <div class="advantage-item">
+      <span class="advantage-icon">🔒</span>
+      <div class="advantage-text">
+        <strong>100 % local</strong>
+        Aucune donnée envoyée sur Internet
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       ESPACE PUB MILIEU (300×250)
+       ═══════════════════════════════════════════════════ -->
+  <div class="ad-slot" style="background:transparent;border:none;margin:0 auto var(--space-lg)">
+    <div class="ad-mid ad-placeholder" style="display:flex;align-items:center;justify-content:center;gap:8px">
+      📢 Espace publicitaire — 300×250
+      <!-- <ins class="adsbygoogle" style="display:block;width:300px;height:250px"
+           data-ad-client="ca-pub-" data-ad-slot="YOUR_MID_SLOT"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ═══════════════════════════════════════════════════
+       CTA PRINCIPAL — ACCÈS AUX OUTILS
+       ═══════════════════════════════════════════════════ -->
+  <section class="cta-section">
+    <h2 class="cta-title">Choisissez votre outil</h2>
+    <div class="cta-cards">
+
+      <!-- Carte Tôle -->
+      <a href="pages/tole.html" class="cta-card card-tole">
+        <div class="cta-card-icon">▦</div>
+        <div class="cta-card-title">Tôle &amp; Panneau 2D</div>
+        <p class="cta-card-desc">
+          Calepinage guillotine de panneaux rectangulaires.
+          Rotation autorisée, jeu de coupe, tôles mères multi-formats.
+        </p>
+        <span class="cta-card-btn">Ouvrir →</span>
+      </a>
+
+      <!-- Carte Barre -->
+      <a href="pages/barre.html" class="cta-card card-barre">
+        <div class="cta-card-icon">═══</div>
+        <div class="cta-card-title">Débit de Barre 1D</div>
+        <p class="cta-card-desc">
+          Optimisation FFD pour profilés, barres et tubes.
+          Angles de coupe (biseaux), longueur hors-tout, chute minimale.
+        </p>
+        <span class="cta-card-btn">Ouvrir →</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       INFORMATIONS TECHNIQUES
+       ═══════════════════════════════════════════════════ -->
+  <section class="tech-section">
+    <div class="sec-header">
+      <div class="sec-num">i</div>
+      <div class="sec-title">Informations techniques</div>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-block">
+        <h3>Module Tôle 2D</h3>
+        <ul class="tech-list">
+          <li>Algorithme <strong>Guillotine récursif Best-Area-Fit</strong> (maximise la surface)</li>
+          <li>Mode <strong>Min-Coupes</strong> : remplissage par bandes horizontales</li>
+          <li>Découpe avec <strong>jeu de trait</strong> configurable par tôle mère</li>
+          <li>Groupement automatique par <strong>matière + épaisseur</strong></li>
+          <li>Rotation 90° optionnelle par panneau</li>
+          <li>Cotes visuelles sur chaque panneau du plan</li>
+        </ul>
+      </div>
+      <div class="tech-block">
+        <h3>Module Barre 1D</h3>
+        <ul class="tech-list">
+          <li>Algorithme <strong>First Fit Decreasing (FFD)</strong></li>
+          <li>Prise en compte des <strong>biseaux</strong> (angle G / angle D) via la hauteur profilé</li>
+          <li>Longueur calculée en <strong>hors-tout</strong> (pointe à pointe)</li>
+          <li><strong>Chute minimale</strong> configurable pour réutilisation</li>
+          <li>Ouverture de la barre la plus courte possible (moins de gaspillage)</li>
+        </ul>
+      </div>
+      <div class="tech-block">
+        <h3>Import / Export</h3>
+        <ul class="tech-list">
+          <li>Export <strong>PDF A4</strong> haute résolution (jsPDF)</li>
+          <li>Export <strong>JPEG/PNG</strong> 2480×1754 px (≈ A4 @300 dpi)</li>
+          <li>Export <strong>CSV UTF-8</strong> (compatible Excel, LibreOffice)</li>
+          <li>Import <strong>CSV</strong> généré par OptiCut</li>
+          <li>Collage direct depuis un <strong>tableur Excel/LibreOffice</strong></li>
+          <li>Sauvegarde automatique via <strong>localStorage</strong></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       BANNIÈRE PUBLICITAIRE BASSE
+       ═══════════════════════════════════════════════════ -->
+  <div class="ad-slot ad-bottom">
+    <div class="ad-placeholder">
+      📢 Espace publicitaire — 728×90
+      <!-- <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px"
+           data-ad-client="ca-pub-" data-ad-slot="YOUR_BOT_SLOT"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <p>
+      <strong style="color:var(--accent)">OptiCut</strong> —
+      Optimiseur de découpe open-source ·
+      <a href="pages/tole.html">Tôle 2D</a> ·
+      <a href="pages/barre.html">Barre 1D</a> ·
+      <a href="pages/a-propos.html">À propos</a> ·
+      <a href="pages/confidentialite.html">Confidentialité</a> ·
+      <a href="pages/mentions-legales.html">Mentions légales</a>
+    </p>
+    <p style="margin-top:6px;font-size:10px">
+      Fonctionne entièrement dans votre navigateur · Aucune donnée envoyée · Compatible Google AdSense
+    </p>
+  </footer>
+
+  <script src="assets/js/cookie-consent.js"></script>
+
+</body>
+</html>
