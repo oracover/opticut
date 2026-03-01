@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!-- =====================================================
+       OptiCut — Débit de Barre 1D
+       Algorithme : First Fit Decreasing (FFD)
+       Biseaux gauche/droit pris en compte via la hauteur profilé
+       ===================================================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OptiCut — Débit de Barre 1D</title>
+  <meta name="description" content="Optimiseur de débit de barres, profilés et tubes. Algorithme FFD, biseaux, longueur hors-tout, export PDF/JPEG/PNG/CSV.">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Barlow+Condensed:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- jsPDF (chargé avant app.js) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Feuille de styles partagée -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <!-- Google AdSense (décommentez et renseignez votre pub-id) -->
+ 
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1912862978925874"
+     crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       BANNIÈRE PUBLICITAIRE HAUTE
+       ═══════════════════════════════════════════════════ -->
+  <div class="ad-slot ad-top">
+    <div class="ad-placeholder">
+      📢 Espace publicitaire — 728×90
+      <!-- <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px"
+           data-ad-client="ca-pub-1912862978925874" data-ad-slot="YOUR_TOP_SLOT"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       HEADER STICKY
+       ═══════════════════════════════════════════════════ -->
+  <header id="mainHeader">
+
+    <div class="hdr-bar">
+
+      <!-- Logo / retour accueil -->
+      <a href="../index.html" class="hdr-logo">
+        <div class="logo-mark"><span></span><span></span><span></span></div>
+        <span class="app-title">Opti<em>CUT</em></span>
+      </a>
+
+      <!-- Navigation entre les outils -->
+      <nav class="hdr-tabs">
+        <a href="tole.html"  class="hdr-tab"        id="tab-tole-btn">▦ Tôle</a>
+        <a href="barre.html" class="hdr-tab active"  id="tab-barre-btn">═ Barre</a>
+      </nav>
+
+      <!-- Actions de droite -->
+      <div class="hdr-icons">
+
+        <!-- Bouton Optimiser -->
+        <button class="ico-btn i-optim" onclick="barre_optimize()">⚡ Optimiser</button>
+
+        <div class="hdr-sep"></div>
+
+        <!-- Bouton menu Import/Export/Reset -->
+        <button class="ico-btn i-toggle" id="hdrToggle"
+                data-tip="Import · Export · Réinitialiser"
+                onclick="togglePanel()">☰</button>
+      </div>
+    </div><!-- /hdr-bar -->
+
+    <!-- Panneau déroulant -->
+    <div class="hdr-panel" id="hdrPanel">
+      <div class="hdr-panel-inner">
+
+        <div class="hprow">
+          <span class="hp-lbl">Import</span>
+          <button class="pnl-btn" onclick="showImportCSV()">⬆ CSV</button>
+          <button class="pnl-btn" onclick="showPasteModal()">📋 Coller Excel</button>
+        </div>
+
+        <div class="hprow">
+          <span class="hp-lbl">Export</span>
+          <button class="pnl-btn p-pdf"  onclick="activeExport('pdf')">⬛ PDF</button>
+          <button class="pnl-btn p-jpeg" onclick="activeExport('jpeg')">◫ JPEG</button>
+          <button class="pnl-btn p-png"  onclick="activeExport('png')">🖼 PNG</button>
+          <button class="pnl-btn p-csv"  onclick="activeExport('csv')">⬇ CSV</button>
+        </div>
+
+        <div class="hprow">
+          <span class="hp-lbl">Reset</span>
+          <button class="pnl-btn p-danger" onclick="barre_resetPieces()">✕ Vider pièces</button>
+          <button class="pnl-btn p-danger" onclick="barre_resetAll()">✕ Tout réinitialiser</button>
+          <button class="pnl-btn p-danger" onclick="persist_clear()">⌫ Effacer mémoire</button>
+        </div>
+
+      </div>
+    </div><!-- /hdr-panel -->
+
+  </header><!-- /header -->
+
+  <!-- Input fichier caché -->
+  <input type="file" id="csv_importFile" accept=".csv"
+         style="display:none" onchange="importCSV(event)">
+
+  <!-- ═══════════════════════════════════════════════════
+       MODAL — Import CSV
+       ═══════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modalImportCSV">
+    <div class="modal">
+      <div class="modal-head">
+        <span class="modal-icon">📂</span>
+        <span class="modal-title">Importer un fichier CSV</span>
+        <button class="modal-close" onclick="closeModal('modalImportCSV')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-hint">
+          Format attendu — généré automatiquement par l'export CSV d'OptiCut.<br>
+          <strong>Barre mère :</strong> <code>type=bar, name, len, stock</code><br>
+          <strong>Pièce :</strong> <code>type=bpiece, name, lenHT, angL, angR, qty, color</code>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="mfbtn primary"
+                  onclick="document.getElementById('csv_importFile').click()">📂 Choisir un fichier CSV</button>
+          <span id="csv_filename"
+                style="font-family:var(--font-mono);font-size:11px;color:var(--muted)">
+            Aucun fichier sélectionné
+          </span>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="mfbtn" onclick="closeModal('modalImportCSV')">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       MODAL — Coller depuis tableur
+       ═══════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modalPaste">
+    <div class="modal">
+      <div class="modal-head">
+        <span class="modal-icon">📋</span>
+        <span class="modal-title">Coller depuis Excel / Tableur</span>
+        <button class="modal-close" onclick="closeModal('modalPaste')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-hint">
+          <strong>Barres mères :</strong> <code>Nom · Longueur · Stock</code><br>
+          <strong>Pièces :</strong> <code>Nom · Longueur HT · Angle G (°) · Angle D (°) · Qté</code><br>
+          Copiez depuis votre tableur <em>(sans en-tête)</em> et collez ci-dessous.
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <label style="white-space:nowrap">Destination :</label>
+          <select id="pasteTarget" style="background:var(--panel);border:1px solid var(--border);
+                  border-radius:4px;color:var(--text);font-family:var(--font-mono);
+                  font-size:12px;padding:6px 9px;outline:none;flex:1">
+            <option value="barre_bars">Barre → Barres mères</option>
+            <option value="barre_pieces">Barre → Pièces à débiter</option>
+          </select>
+          <button class="mfbtn" onclick="clearPasteArea()">Effacer</button>
+        </div>
+        <textarea class="paste-area" id="pasteArea"
+                  placeholder="Collez vos données ici (Ctrl+V)…"></textarea>
+      </div>
+      <div class="modal-foot">
+        <button class="mfbtn"         onclick="closeModal('modalPaste')">Annuler</button>
+        <button class="mfbtn primary" onclick="parsePaste()">✓ Importer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       CONTENU PRINCIPAL
+       ═══════════════════════════════════════════════════ -->
+  <main class="page-wrap">
+
+    <!-- ── Section 1 : Paramètres scie ── -->
+    <section>
+      <div class="sec-header">
+        <div class="sec-num">1</div>
+        <div class="sec-title">Paramètres de la scie &amp; du profilé</div>
+      </div>
+      <div class="form-card">
+        <div class="field sm">
+          <label>Épaisseur lame (mm)</label>
+          <input type="number" id="b_kerf" value="3" min="0.1" step="0.1"
+                 oninput="persist_save()">
+        </div>
+        <div class="field sm">
+          <label>Hauteur profilé (mm)</label>
+          <input type="number" id="b_profil" value="50" min="1"
+                 title="Hauteur de la section transversale — utilisée pour le calcul des biseaux"
+                 oninput="persist_save(); barre_renderPieces()">
+        </div>
+        <div class="field sm">
+          <label>Chute mini (mm)</label>
+          <input type="number" id="b_minWaste" value="50" min="0"
+                 title="En dessous de cette valeur, la chute n'est pas réutilisée"
+                 oninput="persist_save()">
+        </div>
+      </div>
+
+      <!-- Note explicative biseaux -->
+      <div style="background:var(--panel);border:1px solid var(--border);border-radius:6px;
+                  padding:10px 16px;font-family:var(--font-mono);font-size:11px;color:var(--muted);
+                  display:flex;gap:16px;flex-wrap:wrap">
+        <span>📐 <strong style="color:var(--accent2)">Angles</strong> : à la perpendiculaire (0° = droit, 45° = biseau 45°)</span>
+        <span>📏 <strong style="color:var(--accent2)">Longueur</strong> : hors-tout, côté le plus long (pointe à pointe)</span>
+      </div>
+    </section>
+
+    <!-- ── Section 2 : Barres mères ── -->
+    <section>
+      <div class="sec-header">
+        <div class="sec-num">2</div>
+        <div class="sec-title">Barres mères disponibles</div>
+        <div class="sec-sub" id="barre_barSummary">0 longueur(s)</div>
+      </div>
+      <div class="form-card">
+        <div class="field grow"><label>Désignation</label>
+          <input type="text" id="b_barName" value="Barre 6000mm"></div>
+        <div class="field med"><label>Longueur (mm)</label>
+          <input type="number" id="b_barLen" value="6000" min="1"></div>
+        <div class="field sm"><label>Stock</label>
+          <input type="number" id="b_barStock" value="10" min="1"></div>
+        <button class="btn-add" onclick="barre_addBar()">+ Ajouter</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Désignation</th><th>Longueur (mm)</th><th>Stock</th>
+              <th>Utilisées</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="barre_barBody">
+            <tr class="empty-row"><td colspan="5">Aucune barre mère — utilisez le formulaire ci-dessus</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Section 3 : Pièces à débiter ── -->
+    <section>
+      <div class="sec-header">
+        <div class="sec-num">3</div>
+        <div class="sec-title">Pièces à débiter</div>
+        <div class="sec-sub" id="barre_pieceSummary">0 pièce(s)</div>
+      </div>
+      <div class="form-card">
+        <div class="field grow"><label>Nom</label>
+          <input type="text" id="b_pName" value="Pièce A"></div>
+        <div class="field med"><label>Long. HT (mm)</label>
+          <input type="number" id="b_pLen" value="1200" min="1"></div>
+        <div class="field xs"><label>Angle G (°)</label>
+          <input type="number" id="b_pAngL" value="0" min="0" max="60" step="1"></div>
+        <div class="field xs"><label>Angle D (°)</label>
+          <input type="number" id="b_pAngR" value="0" min="0" max="60" step="1"></div>
+        <div class="field xxs"><label>Qté</label>
+          <input type="number" id="b_pQty" value="4" min="1"></div>
+        <div class="field"><label>Couleur</label>
+          <input type="color" id="b_pColor" value="#3ecfcf"></div>
+        <button class="btn-add" onclick="barre_addPiece()">+ Ajouter</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Pièce</th><th>Long. HT (mm)</th><th>Angle G (°)</th>
+              <th>Angle D (°)</th><th>Long. réelle (mm)</th><th>Qté</th>
+              <th>Long. tot. (mm)</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="barre_pieceBody">
+            <tr class="empty-row"><td colspan="8">Aucune pièce — utilisez le formulaire ci-dessus</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Section 4 : Résultats ── -->
+    <section>
+      <div class="sec-header">
+        <div class="sec-num">4</div>
+        <div class="sec-title">Résultats du débit de barre</div>
+      </div>
+
+      <!-- Statistiques -->
+      <div class="stats-bar">
+        <div class="stat-block">
+          <div class="stat-lbl">Barres utilisées</div>
+          <div class="stat-val" id="b_statBars">—</div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-block">
+          <div class="stat-lbl">Pièces débitées</div>
+          <div class="stat-val" id="b_statPieces">—</div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-block">
+          <div class="stat-lbl">Taux utilisation</div>
+          <div class="stat-val" id="b_statRate">—</div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-block">
+          <div class="stat-lbl">Chutes totales</div>
+          <div class="stat-val" id="b_statWaste">—</div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-block">
+          <div class="stat-lbl">Nombre de coupes</div>
+          <div class="stat-val" id="b_statCuts">—</div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="prog-wrap">
+          <div class="prog-lbl">Taux global d'utilisation matière</div>
+          <div class="prog-bar">
+            <div class="prog-fill" id="b_statBar" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plans de débit -->
+      <div id="barre_resultsGrid">
+        <div class="empty-state" id="barre_emptyState">
+          <div class="empty-icon">═══</div>
+          <div class="empty-text">Aucun débit optimisé</div>
+          <div class="empty-sub">Remplissez les sections 1, 2 &amp; 3 · Cliquez sur ⚡ Optimiser</div>
+        </div>
+      </div>
+    </section>
+
+  </main><!-- /page-wrap -->
+
+  <!-- ═══════════════════════════════════════════════════
+       BANNIÈRE PUBLICITAIRE BASSE
+       ═══════════════════════════════════════════════════ -->
+  <div class="ad-slot ad-bottom">
+    <div class="ad-placeholder">
+      📢 Espace publicitaire — 728×90
+      <!-- <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px"
+           data-ad-client="ca-pub-1912862978925874" data-ad-slot="YOUR_BOT_SLOT"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>
+      <a href="../index.html">Accueil</a> ·
+      <a href="tole.html">Tôle 2D</a> ·
+      <a href="barre.html">Barre 1D</a>
+    </p>
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- JavaScript partagé -->
+  <script src="../assets/js/app.js"></script>
+  <script>
+    /* Initialisation de la page Barre */
+    window.addEventListener('DOMContentLoaded', () => {
+      initApp();
+    });
+  </script>
+
+  <script src="../assets/js/cookie-consent.js"></script>
+</body>
+</html>

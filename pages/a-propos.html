@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OptiCut — À propos du projet</title>
+  <meta name="description" content="OptiCut est né d'un besoin concret de métier. Outil open-source gratuit de calcul de découpe, créé par un professionnel pour les professionnels.">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Barlow+Condensed:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1912862978925874" crossorigin="anonymous"></script>
+  <style>
+    .about-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-md) 80px;
+    }
+    /* Hero */
+    .about-hero {
+      text-align: center;
+      padding: var(--space-xl) 0 var(--space-lg);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--space-xl);
+    }
+    .about-hero h1 {
+      font-size: clamp(24px, 6vw, 52px);
+      font-weight: 900; letter-spacing: 4px; text-transform: uppercase;
+      line-height: 1.1; margin-bottom: var(--space-md);
+    }
+    .about-hero h1 em { color: var(--accent); font-style: normal; }
+    .about-hero p {
+      font-size: clamp(14px, 2.5vw, 18px); color: var(--muted);
+      max-width: 600px; margin: 0 auto; line-height: 1.7;
+    }
+    /* Story block */
+    .story-block {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+    .story-block p {
+      font-size: clamp(14px, 2vw, 16px); color: var(--muted);
+      line-height: 1.9; font-family: var(--font-ui);
+      margin-bottom: 14px;
+    }
+    .story-block p:last-child { margin-bottom: 0; }
+    .story-block strong { color: var(--text); }
+    .story-block em { color: var(--accent); font-style: normal; font-weight: 700; }
+    /* Valeurs */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xl);
+    }
+    .value-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: var(--space-md);
+      display: flex; flex-direction: column; gap: 10px;
+      transition: border-color .2s, transform .2s;
+    }
+    .value-card:hover { border-color: var(--accent2); transform: translateY(-3px); }
+    .value-icon { font-size: 28px; }
+    .value-title {
+      font-size: 14px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--text);
+    }
+    .value-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    /* Roadmap */
+    .roadmap { margin-bottom: var(--space-xl); }
+    .roadmap-list { display: flex; flex-direction: column; gap: 12px; margin-top: var(--space-md); }
+    .roadmap-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: var(--space-sm) var(--space-md);
+    }
+    .roadmap-badge {
+      font-family: var(--font-mono); font-size: 10px;
+      padding: 3px 10px; border-radius: 3px; white-space: nowrap;
+      letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .roadmap-badge.done   { background:rgba(82,201,122,.15); color:var(--green);  border:1px solid rgba(82,201,122,.3); }
+    .roadmap-badge.soon   { background:rgba(245,166,35,.15); color:var(--accent); border:1px solid rgba(245,166,35,.3); }
+    .roadmap-badge.future { background:rgba(62,207,207,.10); color:var(--accent2);border:1px solid rgba(62,207,207,.3); }
+    .roadmap-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .roadmap-text strong { color: var(--text); display: block; margin-bottom: 2px; }
+    /* Contact */
+    .contact-section { margin-bottom: var(--space-xl); }
+    .contact-intro {
+      font-size: clamp(13px, 2vw, 15px); color: var(--muted);
+      line-height: 1.8; margin-bottom: var(--space-md);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-sm);
+    }
+    .contact-card {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: var(--space-md);
+      text-decoration: none; transition: border-color .2s, transform .2s;
+    }
+    .contact-card:hover { transform: translateY(-3px); }
+    .contact-card.c-github:hover  { border-color: #f0f6ff; }
+    .contact-card.c-mail:hover    { border-color: var(--accent); }
+    .contact-icon { font-size: 28px; flex-shrink: 0; }
+    .contact-info-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 4px;
+    }
+    .contact-info-value {
+      font-size: 14px; font-weight: 700; color: var(--text);
+    }
+    .contact-info-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    /* Section titre */
+    .section-title-block {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: var(--space-md);
+    }
+    .section-title-block .sec-num { background: var(--accent2); }
+    .section-title-block .sec-title { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <div class="ad-slot ad-top">
+    <div class="ad-placeholder">📢 Espace publicitaire — 728×90</div>
+  </div>
+
+  <header>
+    <div class="hdr-bar">
+      <a href="../index.html" class="hdr-logo">
+        <div class="logo-mark"><span></span><span></span><span></span></div>
+        <span class="app-title">Opti<em>CUT</em></span>
+      </a>
+      <nav class="hdr-nav">
+        <a href="../index.html"          class="hdr-nav-link">Accueil</a>
+        <a href="tole.html"              class="hdr-nav-link">▦ Tôle 2D</a>
+        <a href="barre.html"             class="hdr-nav-link">═ Barre 1D</a>
+        <a href="a-propos.html"          class="hdr-nav-link active">À propos</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="about-wrap">
+
+    <!-- Hero -->
+    <div class="about-hero">
+      <h1>Né du <em>terrain</em>,<br>conçu pour le <em>terrain</em></h1>
+      <p>OptiCut est un outil créé par un professionnel, pour les professionnels — et pour tous ceux qui découpent des matériaux et veulent éviter le gaspillage.</p>
+    </div>
+
+    <!-- Histoire -->
+    <div class="section-title-block">
+      <div class="sec-num">✦</div>
+      <div class="sec-title">L'histoire du projet</div>
+    </div>
+
+    <div class="story-block">
+      <p>
+        OptiCut est né d'un <strong>besoin concret de métier</strong>. Calculer un plan de découpe à la main, sur papier ou dans un tableur, c'est long, sujet aux erreurs, et souvent frustrant. Les outils existants sont soit trop complexes, soit trop coûteux, soit tous les deux.
+      </p>
+      <p>
+        L'idée était simple : créer un outil <em>vraiment utile</em>, qui réponde aux besoins réels du terrain — que ce soit en atelier, sur chantier ou en bureau d'études. Un outil qu'on lance en deux secondes, sans installation, sans abonnement, sans compte à créer.
+      </p>
+      <p>
+        La philosophie d'OptiCut est de rester <strong>100 % gratuit et open-source</strong>. Les publicités affichées permettent uniquement de couvrir les frais d'hébergement. Jamais de fonctionnalité cachée derrière un paywall, jamais de vente de données.
+      </p>
+      <p>
+        Si cet outil vous fait gagner du temps ou de la matière, c'est tout ce dont nous avons besoin.
+      </p>
+    </div>
+
+    <!-- Valeurs -->
+    <div class="section-title-block">
+      <div class="sec-num">★</div>
+      <div class="sec-title">Nos engagements</div>
+    </div>
+
+    <div class="values-grid" style="margin-bottom:var(--space-xl)">
+      <div class="value-card">
+        <div class="value-icon">🆓</div>
+        <div class="value-title">Toujours gratuit</div>
+        <div class="value-desc">Toutes les fonctionnalités actuelles et futures resteront accessibles sans abonnement ni compte utilisateur.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🔓</div>
+        <div class="value-title">Open Source</div>
+        <div class="value-desc">Le code est ouvert, auditable, et réutilisable. La transparence fait partie de l'ADN du projet.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🔒</div>
+        <div class="value-title">Respect de la vie privée</div>
+        <div class="value-desc">Vos données de travail ne quittent jamais votre appareil. Aucun serveur, aucun tracking, aucune revente.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">📐</div>
+        <div class="value-title">Fait pour le terrain</div>
+        <div class="value-desc">Interface pensée pour une utilisation rapide, sur PC comme sur tablette dans un atelier ou sur chantier.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">⚡</div>
+        <div class="value-title">Sans installation</div>
+        <div class="value-desc">Un navigateur suffit. Fonctionne hors ligne une fois la page chargée. Aucune dépendance externe.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">♻️</div>
+        <div class="value-title">Anti-gaspillage</div>
+        <div class="value-desc">Chaque optimisation économise de la matière, du temps et de l'argent. C'est le cœur du projet.</div>
+      </div>
+    </div>
+
+    <!-- Roadmap -->
+    <div class="roadmap">
+      <div class="section-title-block">
+        <div class="sec-num">→</div>
+        <div class="sec-title">Feuille de route</div>
+      </div>
+
+      <div class="roadmap-list">
+        <div class="roadmap-item">
+          <span class="roadmap-badge done">✓ Disponible</span>
+          <div class="roadmap-text">
+            <strong>Calepinage Tôle 2D — Algorithme guillotine Best-Area-Fit</strong>
+            Rotation, jeu de coupe, groupement par matière, exports PDF/JPEG/PNG/CSV, import CSV et tableur.
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-badge done">✓ Disponible</span>
+          <div class="roadmap-text">
+            <strong>Débit de Barre 1D — Algorithme FFD</strong>
+            Biseaux gauche/droit, longueur hors-tout, chute minimale, exports multiples.
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-badge soon">⟳ Prévu</span>
+          <div class="roadmap-text">
+            <strong>Amélioration de l'algorithme Tôle</strong>
+            Exploration d'heuristiques supplémentaires pour augmenter encore le taux d'utilisation sur des configurations complexes.
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-badge soon">⟳ Prévu</span>
+          <div class="roadmap-text">
+            <strong>Export DXF</strong>
+            Export des plans de découpe au format DXF pour intégration directe dans les logiciels de CAO / FAO.
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-badge future">À étudier</span>
+          <div class="roadmap-text">
+            <strong>Mode pièces non-rectangulaires</strong>
+            Prise en charge de pièces en L, U ou de formes polygonales simples (découpe laser).
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <span class="roadmap-badge future">À étudier</span>
+          <div class="roadmap-text">
+            <strong>Application mobile native</strong>
+            Version PWA installable sur smartphone et tablette pour une utilisation encore plus rapide sur le terrain.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pub milieu -->
+    <div class="ad-slot" style="background:transparent;border:none;margin:0 auto var(--space-xl)">
+      <div class="ad-mid ad-placeholder" style="display:flex;align-items:center;justify-content:center">
+        📢 Espace publicitaire — 300×250
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="contact-section">
+      <div class="section-title-block">
+        <div class="sec-num">✉</div>
+        <div class="sec-title">Contact &amp; Contribution</div>
+      </div>
+
+      <p class="contact-intro">
+        Une idée de fonctionnalité ? Un bug à signaler ? Envie de contribuer au code ? Toutes les contributions sont les bienvenues. OptiCut grandit grâce aux retours des utilisateurs du terrain.
+      </p>
+
+      <div class="contact-grid">
+        <a href="https://github.com/oracover/opticut" target="_blank" rel="noopener" class="contact-card c-github">
+          <div class="contact-icon">🐙</div>
+          <div>
+            <div class="contact-info-label">Code source</div>
+            <div class="contact-info-value">github.com/oracover/opticut</div>
+            <div class="contact-info-desc">Signaler un bug, proposer une amélioration, forker le projet</div>
+          </div>
+        </a>
+        <a href="mailto:tbrunon@free.fr" class="contact-card c-mail">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-info-label">E-mail</div>
+            <div class="contact-info-value">tbrunon@free.fr</div>
+            <div class="contact-info-desc">Questions générales, droits RGPD, partenariats</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Lien mentions et confidentialité -->
+    <div style="display:flex;gap:var(--space-sm);flex-wrap:wrap;padding-top:var(--space-md);border-top:1px solid var(--border)">
+      <a href="mentions-legales.html" style="color:var(--muted);font-size:12px;text-decoration:none;font-family:var(--font-mono)">→ Mentions légales</a>
+      <a href="confidentialite.html"  style="color:var(--muted);font-size:12px;text-decoration:none;font-family:var(--font-mono)">→ Politique de confidentialité</a>
+    </div>
+
+  </div>
+
+  <div class="ad-slot ad-bottom">
+    <div class="ad-placeholder">📢 Espace publicitaire — 728×90</div>
+  </div>
+
+  <footer class="site-footer">
+    <p>
+      <strong style="color:var(--accent)">OptiCut</strong> —
+      Optimiseur de découpe open-source ·
+      <a href="tole.html">Tôle 2D</a> ·
+      <a href="barre.html">Barre 1D</a> ·
+      <a href="a-propos.html">À propos</a> ·
+      <a href="confidentialite.html">Confidentialité</a> ·
+      <a href="mentions-legales.html">Mentions légales</a>
+    </p>
+    <p style="margin-top:6px;font-size:10px">Fonctionne entièrement dans votre navigateur · Aucune donnée envoyée · Compatible Google AdSense</p>
+  </footer>
+
+  <script src="../assets/js/cookie-consent.js"></script>
+</body>
+</html>

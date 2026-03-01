@@ -1,0 +1,81 @@
+/* =============================================================
+   OptiCut — Bandeau de consentement cookies (RGPD)
+   Injecté dans toutes les pages via cookie-consent.js
+   ============================================================= */
+
+#cookie-banner {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 9999;
+  background: #17191f;
+  border-top: 2px solid #2a2d38;
+  box-shadow: 0 -8px 40px rgba(0,0,0,.7);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-family: 'Barlow Condensed', sans-serif;
+  animation: slideUp .35s cubic-bezier(.4,0,.2,1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+#cookie-banner.hidden {
+  display: none;
+}
+
+.cookie-text {
+  flex: 1;
+  min-width: 260px;
+  font-size: 13px;
+  color: #6b7080;
+  line-height: 1.6;
+}
+.cookie-text strong { color: #e8eaf0; }
+.cookie-text a { color: #3ecfcf; text-decoration: none; }
+.cookie-text a:hover { text-decoration: underline; }
+
+.cookie-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.cookie-btn {
+  display: inline-flex; align-items: center;
+  padding: 9px 20px; border-radius: 5px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  cursor: pointer; border: none; transition: all .15s;
+  white-space: nowrap;
+}
+.cookie-btn-accept {
+  background: #f5a623; color: #000;
+}
+.cookie-btn-accept:hover { background: #ffb940; transform: translateY(-1px); }
+
+.cookie-btn-refuse {
+  background: transparent;
+  border: 1px solid #2a2d38;
+  color: #6b7080;
+}
+.cookie-btn-refuse:hover { border-color: #3ecfcf; color: #3ecfcf; }
+
+.cookie-btn-settings {
+  background: transparent;
+  border: 1px solid #2a2d38;
+  color: #6b7080;
+  font-size: 11px;
+}
+.cookie-btn-settings:hover { border-color: #6b7080; color: #e8eaf0; }
+
+@media (max-width: 480px) {
+  #cookie-banner { padding: 14px 16px; gap: 12px; }
+  .cookie-btn { padding: 8px 14px; font-size: 11px; }
+}
